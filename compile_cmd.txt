@@ -1,0 +1,2 @@
+g++ -ID:\SFML-2.5.1\include -c main.cpp -o main.o
+g++ -LD:\SFML-2.5.1\lib .\main.o -o main.exe -lsfml-graphics -lsfml-window -lsfml-system
