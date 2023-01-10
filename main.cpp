@@ -1,16 +1,24 @@
 #include <SFML/Graphics.hpp>
-
-sf::CircleShape shape(100, 10000);
+#include <assert.h>
 
 void renderingThread(sf::RenderWindow* window)
 {
-    shape.setFillColor(sf::Color::Green);
-    
+    sf::Texture tBackground;
+    tBackground.loadFromFile("sprites/Lucky.png"); //1453 x 756
+    tBackground.setSmooth(1);
+
+    sf::Sprite sBackground;
+    sBackground.setTexture(tBackground);
+    sBackground.scale(sf::Vector2f(.8, .8));
+
+    sf::Font font;
+    font.loadFromFile("fonts/DejaVuSerif.ttf");
+
     window->setActive(true);
 
     while (window->isOpen())
     {
-        window->draw(shape);
+        window->draw(sBackground);
 
         window->display();
     }
@@ -18,7 +26,7 @@ void renderingThread(sf::RenderWindow* window)
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Haha");
+    sf::RenderWindow window(sf::VideoMode(1453*0.8, 756*0.8), "Haha");
 
     window.setActive(false);
 
