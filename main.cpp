@@ -4,15 +4,18 @@
 #include "random.h"
 
 int lock = 0;
+std::string state, statelock;
 
-void gen(std::string &state, Random &rng)
+void gen(Random &rng)
 {
     for(int i=0; i<3; i++) 
     {
         if(lock>>i&1)
-            state[i] = '#';
+            state[i] = statelock[i];
         else 
-            state[i] = rng.rand(0, 9) + '0';
+        {
+            
+        }
     }
 }
 
@@ -40,15 +43,13 @@ void renderingThread(sf::RenderWindow* window)
         text.setFillColor(sf::Color(190, 38, 51));
         text.setPosition(sf::Vector2f(854 + 143 * i, 384));
     }
-
-    std::string state;
     Random rng(11235813);
 
     window->setFramerateLimit(30);
 
     while(window->isOpen())
     {
-        gen(state, rng);
+        gen(rng);
 
         for(int i=0; i<3; i++) digits[i].setString(std::string(1, state[i]));
 
@@ -74,12 +75,20 @@ int main()
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+            {
                 window.close();
+            }
             
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
             {
+                int id = 0;
+                if(lock == 1) id = 1;
+                else if(lock == 3) id = 2;
+
                 lock = lock << 1 | 1;
                 lock &= (1<<3) - 1;
+
+                statelock[id] = state[id];
             }
 
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R)
