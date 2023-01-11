@@ -119,26 +119,42 @@ int main()
                 window.close();
             }
 
-            if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            if (event.type == sf::Event::MouseButtonPressed)
             {
-                int id = 0;
-                if(lock == 1) id = 1;
-                else if(lock == 3) id = 2;
+                if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                {
+                    int id = 0;
+                    if(lock == 1) id = 1;
+                    else if(lock == 3) id = 2;
 
-                if(!lock) statelock = num2string(rng.rand(1, 640));
+                    if(!lock) statelock = num2string(rng.rand(1, 640));
 
-                lock = lock << 1 | 1;
-                lock &= (1<<3) - 1;
+                    lock = lock << 1 | 1;
+                    lock &= (1<<3) - 1;
+                }
             }
 
-            if (event.type == sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+            if (event.type == sf::Event::KeyPressed)
             {
-                lock = 0;
-            }
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+                {
+                    lock = 0;
+                }
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::S) && lock == ((1<<3)-1))
+                {
+                    appeared.insert(string2num(statelock));
+                }
+                if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+                {
+                    int id = 0;
+                    if(lock == 1) id = 1;
+                    else if(lock == 3) id = 2;
 
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::S) && lock == ((1<<3)-1))
-            {
-                appeared.insert(string2num(statelock));
+                    if(!lock) statelock = num2string(rng.rand(1, 640));
+
+                    lock = lock << 1 | 1;
+                    lock &= (1<<3) - 1;
+                }
             }
         }
     }
