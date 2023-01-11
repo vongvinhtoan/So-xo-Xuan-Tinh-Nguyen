@@ -18,6 +18,13 @@ std::string num2string(int a)
     return s;
 }
 
+int string2num(std::string s)
+{
+    int a = 0;
+    for(char c: s) a = a*10 + (c - '0');
+    return a;
+}
+
 void gen(Random &rng)
 {
     for(int i=0; i<3; i++) 
@@ -89,7 +96,7 @@ int main()
 
     loadData();
 
-    sf::RenderWindow window(sf::VideoMode(1453, 756), "Haha");
+    sf::RenderWindow window(sf::VideoMode(1453, 756), "Lucky Ticket");
 
     window.setActive(false);
 
@@ -105,10 +112,14 @@ int main()
         {
             if (event.type == sf::Event::Closed)
             {
+                std::ofstream fo;
+                fo.open("winner.txt");
+                for(int a: appeared) fo<<a<<"\n";
+                fo.close();
                 window.close();
             }
 
-            if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
+            if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
                 int id = 0;
                 if(lock == 1) id = 1;
@@ -120,9 +131,14 @@ int main()
                 lock &= (1<<3) - 1;
             }
 
-            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R)
+            if (event.type == sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::R))
             {
                 lock = 0;
+            }
+
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && sf::Keyboard::isKeyPressed(sf::Keyboard::S) && lock == ((1<<3)-1))
+            {
+                appeared.insert(string2num(statelock));
             }
         }
     }
