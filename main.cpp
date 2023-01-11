@@ -14,7 +14,7 @@ void gen(Random &rng)
             state[i] = statelock[i];
         else 
         {
-            
+            state[i] = rng.rand(0, 9) + '0';
         }
     }
 }
