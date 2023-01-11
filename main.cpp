@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <set>
 #include <fstream>
+#include <chrono>
 #include "random.h"
 
 int lock = 0;
@@ -62,7 +63,7 @@ void renderingThread(sf::RenderWindow* window)
         text.setFillColor(sf::Color(190, 38, 51));
         text.setPosition(sf::Vector2f(854 + 143 * i, 384));
     }
-    Random rng(22112004);
+    Random rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
     window->setFramerateLimit(20);
 
@@ -103,7 +104,7 @@ int main()
     sf::Thread thread(&renderingThread, &window);
     thread.launch();
 
-    Random rng(22112004);
+    Random rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
     while (window.isOpen())
     {
