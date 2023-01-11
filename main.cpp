@@ -64,7 +64,7 @@ void renderingThread(sf::RenderWindow* window)
     }
     Random rng(22112004);
 
-    window->setFramerateLimit(30);
+    window->setFramerateLimit(20);
 
     while(window->isOpen())
     {
@@ -127,6 +127,8 @@ int main()
                     if(lock == 1) id = 1;
                     else if(lock == 3) id = 2;
 
+                    int h = rng.rand(1, 640);
+                    while(appeared.count(h)) h = rng.rand(1, 640);
                     if(!lock) statelock = num2string(rng.rand(1, 640));
 
                     lock = lock << 1 | 1;
@@ -150,6 +152,8 @@ int main()
                     if(lock == 1) id = 1;
                     else if(lock == 3) id = 2;
 
+                    int h = rng.rand(1, 640);
+                    while(appeared.count(h)) h = rng.rand(1, 640);
                     if(!lock) statelock = num2string(rng.rand(1, 640));
 
                     lock = lock << 1 | 1;
